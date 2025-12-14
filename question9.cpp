@@ -1,81 +1,61 @@
-//Q4 Next Greater Temperature
-
 /*
-
-Given an array of integers temperatures represents the daily temperatures, return an
-array answer such that answer[i] is the number of days you have to wait after the ith day to get a
-warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
-
+The school cafeteria offers circular and square sandwiches at lunch break, referred 
+to by numbers 0 and 1 respectively. All students stand in a queue. Each student 
+either prefers square or circular sandwiches. The number of sandwiches in the 
+cafeteria is equal to the number of students. The sandwiches are placed in a stack. 
+At each step:
+• If the student at the front of the queue prefers the sandwich on the top of the stack, they will take
+it and leave the queue.
+• Otherwise, they will leave it and go to the queue's end.
+This continues until none of the queue students want to take the top sandwich and are thus
+unable to eat
+Input: students = [1,1,0,0], sandwiches = [0,1,0,1]
+Output: 0
 */
-
-/*
 #include <iostream>
-#include<vector>
 #include<stack>
+#include<queue>
 using namespace std;
-
-vector<int>nextgreaterele(vector<int>&nums)
-{
-int n=nums.size();
-vector<int>ngt(n,0);
-stack<int>st;
-for(int i=n-1;i>=0;i--)
-{
-while(!st.empty() && nums[st.top()]<=nums[i])
-{
-    st.pop();
-}
-if(!st.empty())
-ngt[i]=st.top()-i;
-st.push(i);
-}
-return ngt;
-}
 int main()
 {
-vector < int > v = {25,17,11,22,16,50};
-vector < int > res = nextgreaterele(v);
-cout << "The next greater elements are" << endl;
-for (int i = 0; i < res.size(); i++) 
-{
-cout << res[i] << " ";
-}
-return 0;
-}
-*/
-//TC/SC-O(N)
+    queue<int> students ;
+    stack<int> sandwiches ;
+    // circular sandwhich -->0 square sandwhich ---> 1
+    sandwiches.push(0);
+    sandwiches.push(1);
+    sandwiches.push(0);
+    sandwiches.push(1);
+    students.push(1);
+    students.push(1);
+    students.push(0);
+    students.push(0);
 
+    while (!sandwiches.empty()) {
+        int attempt = students.size();
+        bool eaten = false;
 
-#include <iostream>
-#include<vector>
-using namespace std;
-void number_of_days(vector<int> p)
-{
-    int n = p.size() ;
-    vector<int> answer ;
-    for(int i = 0 ; i < n ; i++)
-    {
-        int count = 0 ; 
-        for(int j = i ; j < n ; j++)
-        {
-            if(p[j]>p[i])
-            {
-                count = j-i ;
-                break;
+        while (attempt--) {
+            int x = students.front();
+            int y = sandwiches.top();
+
+            if (x == y) {
+                sandwiches.pop();
+                students.pop();
+                eaten = true;
+                break;           
+            } else {
+                students.pop();
+                students.push(x); // rotate
             }
         }
-        answer.push_back(count) ;
+
+        if (!eaten) {
+            // no one wanted the top sandwich
+            cout << students.size();
+            return 0;
+        }
     }
 
-    for(int i = 0 ; i< n ; i++)
-    {
-        cout<< answer[i] << " " ;
-    }
-    
-}
-int main()
-{
-    vector < int > v = {25,17,11,22,16,50};
-    number_of_days(v) ;
-return 0 ;
+    cout << 0; // all students got sandwiches
+    return 0;
 }

@@ -1,62 +1,39 @@
-//Q4 Infix to Postfix
+/*
+Write a program to find first non-repeating character in a string using Queue.
+Sample I/P: a a b c 
+Sample O/P: a -1 b b
+*/
 
 #include <iostream>
+#include <queue>
+#include <string>
 using namespace std;
 
-int prec(char c)
-{
-    if(c=='^')
-    return 3;
-    else if(c=='/' || c=='*')
-    return 2;
-    else if(c=='+' || c=='-')
-    return 1;
-    else
-    return -1;
-}
-void infixtopostfix(string s)
-{
-    stack<char>st;
-    string result;
-    for(int i=0;i<s.length();i++)
-    {
-        char c=s[i];
-        if((c>='a' && c<='z') || (c>='A' && c<='Z' || c>='0' && c<='9'))
-        result+=c;
-        else if(c=='(')
-        st.push(c);
-        else if(c==')')
-        {
-            while(st.top()!='(')
-            {
-                result+=st.top();
-                st.pop();
-            }
-            st.pop();
+void findFirstNonRepeating(string B) {
+    queue<char> q;      
+    int freq[26] = {0}; // frequency count for each lowercase letter
+
+    for (int i = 0; i < B.size(); i++) {
+        char ch = B[i];
+        freq[ch - 'a']++; 
+        q.push(ch);       // push current character
+
+        // remove all repeating characters from front
+        while (!q.empty() && freq[q.front() - 'a'] > 1) {
+            q.pop();
         }
-        else
-        {
-            while(!st.empty() && prec(c)<=prec(st.top()))
-            {
-                result+=st.top();
-                st.pop();
-            }
-            st.push(c);
-        }
+
+        // print result for this step
+        if (q.empty()) 
+            cout << "-1 ";
+        else 
+            cout << q.front() << " ";
     }
-    while(!st.empty())
-    {
-        result+=st.top();
-        st.pop();
-    }
-    cout<<"Postfix Expression is "<<result<<endl<<endl;
+    cout << endl;
 }
-int main()
-{
-    string exp = "(p+q)*(m-n)";
-    cout << "Infix expression: " <<exp <<endl << endl;
-    infixtopostfix(exp);
+
+int main() {
+    string B = "aabc";
+    findFirstNonRepeating(B);
     return 0;
 }
-//TC/SC-O(N)
-

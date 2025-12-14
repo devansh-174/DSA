@@ -1,50 +1,39 @@
-//Q6 Previous Smaller Element
-
+/*
+1) Given a function n, write a function that generates and prints all binary numbers with decimal values
+from 1 to n.
+Input: n = 2
+Output: 1, 10
+*/
 #include <iostream>
-#include<vector>
-#include<stack>
+#include<string>
+#include<algorithm>
 using namespace std;
-void previoussmaller(vector<int>&arr)
-{
-    stack<int>result ;
-    int n = arr.size() ;
-    for(int i = 0 ; i < n ;i++)
-    {
-       if(i==0)
-       {
-        result.push(-1) ;
-        continue ;
-       } 
-        int input = -1 ;
-        for(int j = i-1 ; j > -1 ;j--)
-        {
-            if(arr[j]<arr[i])
-            {
-                input = arr[j] ;
-                break ;
-            }
-        }
-        result.push(input) ;
-    }
-    stack<int> answer ;
-    for(int k = 0 ; k < n ; k++)
-    {
-        int s = result.top() ;
-        answer.push(s) ;
-        result.pop() ;
-    }
-    while(!answer.empty())
-    {
-        int p = answer.top() ;
-        cout << p << " " ;
-        answer.pop() ;
-    }
-}
 int main()
 {
-    vector<int> arr = {5,7,1,2,6,0} ;
-    vector<int> res ;
-    cout << "the next smaller elements are: " << endl ;
-    previoussmaller(arr) ;
+    int n ; 
+    cin >> n ;
+    
+    for(int i = 1 ; i <= n ; i++)
+    {
+        string binary ="" ;
+        int num = i ; 
+        while(num > 0)
+        {   
+        int remainder = num%2 ;
+
+        if(remainder==0)
+        {
+            binary += "0" ;
+        }
+        else{
+            binary += "1" ;
+        }
+        num=num/2;
+        }
+        reverse(binary.begin(),binary.end()) ;
+        cout << binary << " " ;
+    }
+    
+    
 return 0 ;
 }

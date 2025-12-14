@@ -1,46 +1,70 @@
-
-//Q5 Evaulation of Postfix Expression
+/*
+Write a program to implement a stack using (a) Two queues and (b) One Queue.
+*/
 
 #include <iostream>
+#include <queue>
 using namespace std;
 
-int evalpost(string exp)
-{
-    int l=exp.length();
-    stack<int>st;
-    for(int i=0;i<l;i++)
-    {
-        char c=exp[i];
-        if(isdigit(c))
-        st.push(c-'0');
-        else
-        {
-            int val2=st.top();
-            st.pop();
-            int val1=st.top();
-            st.pop();
-            switch(c)
-            {
-                case '+':st.push(val1+val2);
-                break;
-                case '-':st.push(val1-val2);
-                break;
-                case '*':st.push(val1*val2);
-                break;
-                case '/':st.push(val1/val2);
-                break;
-                case '^':st.push(val1^val2);
-                break;
+class StackTwoQueues {
+    queue<int> q1, q2;
 
-            }
+public:
+    void push(int x) {
+        // Push to q2 first
+        q2.push(x);
+
+        // Move all elements from q1 to q2
+        while (!q1.empty()) {
+            q2.push(q1.front());
+            q1.pop();
         }
-    }
-    return st.top();
-}
-int main()
-{
-    string exp="57+62-*";
-    cout<<"Value of postfix expression is "<<evalpost(exp)<<endl;
-    return 0;
-}
 
+        // Swap names of q1 and q2
+        swap(q1, q2);
+    }
+
+    void pop() {
+        if (q1.empty()) {
+            cout << "Stack is empty\n";
+            return;
+        }
+        cout << "Popped: " << q1.front() << endl;
+        q1.pop();
+    }
+
+    int top() {
+        if (q1.empty()) {
+            cout << "Stack is empty\n";
+            return -1;
+        }
+        return q1.front();
+    }
+
+    bool isEmpty() {
+        return q1.empty();
+    }
+
+    void display() {
+        queue<int> temp = q1;
+        cout << "Stack elements (top to bottom): ";
+        while (!temp.empty()) {
+            cout << temp.front() << " ";
+            temp.pop();
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    StackTwoQueues s;
+    s.push(10);
+    s.push(20);
+    s.push(30);
+    s.display();
+
+ cout << "Top element: " << s.top() << endl;
+
+    s.pop();
+    s.display();
+}
