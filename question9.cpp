@@ -1,61 +1,53 @@
 /*
-The school cafeteria offers circular and square sandwiches at lunch break, referred 
-to by numbers 0 and 1 respectively. All students stand in a queue. Each student 
-either prefers square or circular sandwiches. The number of sandwiches in the 
-cafeteria is equal to the number of students. The sandwiches are placed in a stack. 
-At each step:
-• If the student at the front of the queue prefers the sandwich on the top of the stack, they will take
-it and leave the queue.
-• Otherwise, they will leave it and go to the queue's end.
-This continues until none of the queue students want to take the top sandwich and are thus
-unable to eat
-Input: students = [1,1,0,0], sandwiches = [0,1,0,1]
-Output: 0
+Given two polynomial numbers represented by two linked lists. The task is
+to add these lists (meaning the coefficients with the same variable powers will be
+added).
 */
-#include <iostream>
-#include<stack>
-#include<queue>
-using namespace std;
-int main()
+node* start1 = head1 ;
+node* start2 = head2 ;
+node* start3 = head3 ;
+while(start1!=nullptr && start2!=nullptr)
 {
-    queue<int> students ;
-    stack<int> sandwiches ;
-    // circular sandwhich -->0 square sandwhich ---> 1
-    sandwiches.push(0);
-    sandwiches.push(1);
-    sandwiches.push(0);
-    sandwiches.push(1);
-    students.push(1);
-    students.push(1);
-    students.push(0);
-    students.push(0);
-
-    while (!sandwiches.empty()) {
-        int attempt = students.size();
-        bool eaten = false;
-
-        while (attempt--) {
-            int x = students.front();
-            int y = sandwiches.top();
-
-            if (x == y) {
-                sandwiches.pop();
-                students.pop();
-                eaten = true;
-                break;           
-            } else {
-                students.pop();
-                students.push(x); // rotate
-            }
-        }
-
-        if (!eaten) {
-            // no one wanted the top sandwich
-            cout << students.size();
-            return 0;
-        }
+    if(start1->second==start2->second)
+    {
+        start3->first = start1->first+start2->first ;
+        start3->second = start1->second ;
+        start3 = start3->next ;
+        start2 = start2->next; 
+        start1 = start1->next;
     }
-
-    cout << 0; // all students got sandwiches
-    return 0;
+    else if(start1->second>start2->second)
+    {
+        start3->first=start1->first;
+        start3->second = start1->second ;
+        start3 = start3->next ;
+        start1 = start1->next;
+    }
+    else{
+        start3->first=start2->first;
+        start3->second = start2->second ;
+        start3 = start3->next ;
+        start2 = start2->next;   
+    }
 }
+if(start1!=nullptr)
+{
+    while(start1!=nullptr)
+    {
+        start3->first=start1->first;
+        start3->second = start1->second ;
+        start3 = start3->next ;
+        start1 = start1->next;
+    }
+}
+else
+{
+    while(start2!=nullptr)
+    {
+        start3->first=start2->first;
+        start3->second = start2->second ;
+        start3 = start3->next ;
+        start2 = start2->next;
+    }
+}
+start3->next = nullptr ;

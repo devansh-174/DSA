@@ -1,39 +1,27 @@
 /*
-1) Given a function n, write a function that generates and prints all binary numbers with decimal values
-from 1 to n.
-Input: n = 2
-Output: 1, 10
+Given a linked list and a positive number K, reverse the nodes in groups of K. 
+All the remaining nodes after multiples of k should be left as it is.
 */
-#include <iostream>
-#include<string>
-#include<algorithm>
-using namespace std;
-int main()
+node* curr = head1 ;
+int k = 3 ;
+node* net = head1 ;
+int count = 0 ;
+node* curr1 = head1 ;
+while(curr!=nullptr)
 {
-    int n ; 
-    cin >> n ;
-    
-    for(int i = 1 ; i <= n ; i++)
+    curr = curr->next ;
+    count++;
+}
+int key = int(count/k);
+for(int i =0 ; i < key ; i++)
+{
+    net = net->next->next ;
+    if(net->next!=nullptr)
     {
-        string binary ="" ;
-        int num = i ; 
-        while(num > 0)
-        {   
-        int remainder = num%2 ;
-
-        if(remainder==0)
-        {
-            binary += "0" ;
-        }
-        else{
-            binary += "1" ;
-        }
-        num=num/2;
-        }
-        reverse(binary.begin(),binary.end()) ;
-        cout << binary << " " ;
+        node*temp = net ; 
+        net = curr1 ; 
+        curr1 = temp ;
     }
     
-    
-return 0 ;
+
 }

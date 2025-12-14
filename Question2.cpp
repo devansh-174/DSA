@@ -1,34 +1,36 @@
 /*
-Given a string, reverse it using STACK. For example “DataStructure” should be output as
-“erutcurtSataD.”
+Write a program to count the number of occurrences of a given key in a singly linked
+list and then delete all the occurrences.
+Input: Linked List : 1->2->1->2->1->3->1 , key: 1
+Output: Count: 4 , Updated Linked List: 2->2->3.
 */
 
-#include <iostream>
-#include<string>
-#include<stack>
-using namespace std;
-void input_of_string(stack<char> &p  , string s)
+
+int key = 1;
+int count = 0;
+node* temp = head ;
+node*previous = nullptr ;
+while(temp!=nullptr)
 {
-    for(auto j = 0 ; j < s.size() ; j++)
+    if(temp->data==key)
     {
-        p.push(s[j]);
+        if(head->data==key)
+        {
+            head = temp->next;
+            delete temp;
+            temp = head;
+            count++ ;
+        }
+        else{
+            previous->next = temp->next ;
+            delete temp ;
+            temp=previous->next; 
+            count++;
+        }
+    }
+    else{
+        previous = temp ;
+        temp = temp->next ;
     }
 }
-void display(stack<char> &p  , string s)
-{
-    int k = s.size() ;
-    for(auto i = 0 ; i < k ; i++)
-    {
-        cout << p.top();
-        p.pop() ;
-    }
-}
-int main()
-{
-    string s = "DataStructure" ;
-    int k = s.size() ;
-    stack<char> p ;
-    input_of_string(p, s) ;
-    display( p  ,  s) ;
-return 0 ;
-}
+return count ;

@@ -1,70 +1,26 @@
 /*
-Write a program to implement a stack using (a) Two queues and (b) One Queue.
+Find the intersection node of two singly linked lists that merge into a Y-shaped structure.
+The lists may vary in length and have distinct nodes at the beginning, but from the point of
+intersection onward, they share the same sequence of nodes. The task is to identify the first
+common node where the two lists converge. If the two linked lists have no intersection at all,
+return null.
 */
-
-#include <iostream>
-#include <queue>
-using namespace std;
-
-class StackTwoQueues {
-    queue<int> q1, q2;
-
-public:
-    void push(int x) {
-        // Push to q2 first
-        q2.push(x);
-
-        // Move all elements from q1 to q2
-        while (!q1.empty()) {
-            q2.push(q1.front());
-            q1.pop();
+node* curr1;
+node* curr2 = head2 ;
+while(curr2!=nullptr)
+{
+    curr1 = head1 ;
+    while(curr1!=nullptr && curr1!=curr2)
+    {
+        curr1 = curr1->next ;
+        
+    }
+    if(curr1==curr2)
+        {
+            return curr2;  
         }
-
-        // Swap names of q1 and q2
-        swap(q1, q2);
-    }
-
-    void pop() {
-        if (q1.empty()) {
-            cout << "Stack is empty\n";
-            return;
-        }
-        cout << "Popped: " << q1.front() << endl;
-        q1.pop();
-    }
-
-    int top() {
-        if (q1.empty()) {
-            cout << "Stack is empty\n";
-            return -1;
-        }
-        return q1.front();
-    }
-
-    bool isEmpty() {
-        return q1.empty();
-    }
-
-    void display() {
-        queue<int> temp = q1;
-        cout << "Stack elements (top to bottom): ";
-        while (!temp.empty()) {
-            cout << temp.front() << " ";
-            temp.pop();
-        }
-        cout << endl;
-    }
-};
-
-int main() {
-    StackTwoQueues s;
-    s.push(10);
-    s.push(20);
-    s.push(30);
-    s.display();
-
- cout << "Top element: " << s.top() << endl;
-
-    s.pop();
-    s.display();
+    curr2 = curr2->next; 
+    
 }
+return nullptr;  // no intersection
+     
