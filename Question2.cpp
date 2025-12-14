@@ -1,33 +1,34 @@
 /*
-Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping
-the adjacent elements if they are in wrong order. Code the Bubble sort with the
-following elements:
+Given a string, reverse it using STACK. For example “DataStructure” should be output as
+“erutcurtSataD.”
 */
-/*
-Bubble Sort implementation in simple way
-*/
+
 #include <iostream>
-#include <vector>
+#include<string>
+#include<stack>
 using namespace std;
-
-int main() {
-    vector<int> p = {4, 2, 5, 7, 1, 3, 9, 0};
-
-    for (int i = 0; i < p.size(); i++) {
-        for (int j = 0; j < p.size()-i-1; j++) {
-            if (p.at(j) > p.at(j+1)) {
-                int temp = p.at(j);
-                p.at(j) = p.at(j+1);
-                p.at(j+1) = temp;
-            }
-        }
+void input_of_string(stack<char> &p  , string s)
+{
+    for(auto j = 0 ; j < s.size() ; j++)
+    {
+        p.push(s[j]);
     }
-
-    cout << "Sorted array is: ";
-    for (int i = 0; i < p.size(); i++) {
-        cout << p.at(i) << " ";
+}
+void display(stack<char> &p  , string s)
+{
+    int k = s.size() ;
+    for(auto i = 0 ; i < k ; i++)
+    {
+        cout << p.top();
+        p.pop() ;
     }
-    cout << endl;
-
-    return 0;
+}
+int main()
+{
+    string s = "DataStructure" ;
+    int k = s.size() ;
+    stack<char> p ;
+    input_of_string(p, s) ;
+    display( p  ,  s) ;
+return 0 ;
 }
