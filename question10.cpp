@@ -1,33 +1,48 @@
 /*
-You have an array A of integers of size N, an array B (initially empty) and a stack S (initially
-empty). You are allowed to do the following operations:
-a) Take the first element of array A and push it into S and remove it from A.
-b) Take the top element from stack S, append it to the end of array B and remove it from S.
-You have to tell if it possible to move all the elements of array A to array B using the above
-operations such that finally the array B is sorted in ascending order.
+Given a 2D matrix, the task is to convert it into a doubly-linked list with four pointers
+that are next, previous, up, and down, each node of this list should be connected to its
+next, previous, up, and down nodes.
 */
+struct node{
+    int data ;
+    node* next ;
+    node* previous;
+    node* up;
+    node* down ;
+};
 
-#include <iostream>
-#include<vector>
-#include<stack>
-using namespace std;
-int main()
+node* matrix(node* head)
 {
-    vector<int> A = {1,3,2,4} ;
-    int N = A.size() ;
-    vector<int> B ;
-    stack<int> S ;
-    for(int i = 0 ; i < N ; i++)
+    node* ptr[3][3] ;
+
+    // create nodes
+    for(int i = 0 ; i < 3 ; i++)
     {
-        int temp = A[i] ;
-        S.push(temp);
-        A.pop_back();
-        if(A[i]<A[i+1])
+        for(int j = 0 ; j < 3 ; j++)
         {
-            int k = S.top() ;
-            B.push_back(k);
-            S.pop();
+            ptr[i][j] = new node() ;
         }
     }
-return 0 ;
+
+    // now joining them horizontally
+    for(int k = 0 ; k < 3 ; k++)
+    {
+        for(int p = 0 ; p < 2 ; p++ )
+        {
+            ptr[k][p]->next = ptr[k][p+1] ;
+            ptr[k][p+1]->previous = ptr[k][p] ;
+        }
+    }
+
+    // joining them vertically
+    for(int k = 0 ; k < 2 ; k++)
+    {
+        for(int p = 0 ; p < 3 ; p++ )
+        {
+            ptr[k][p]->down = ptr[k+1][p] ;
+            ptr[k+1][p]->up = ptr[k][p] ;
+        }
+    }
+
+    return ptr[0][0] ;
 }

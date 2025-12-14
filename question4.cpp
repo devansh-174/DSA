@@ -1,17 +1,63 @@
 /*
-Write a program to reverse a linked list.
-Input: 1->2->3->4->NULL
-Output: 4->3->2->1->NULL
+4. Write a program to check if a doubly linked list of characters is palindrome or not.
 */
-    node* prev = nullptr;
-    node* curr = head;
-    node* next = nullptr;
-while(curr!=nullptr)
+#include <iostream>
+using namespace std;
+
+struct node {
+    char data;
+    node* next;
+    node* previous;
+};
+
+bool isPalindrome(node* head)
 {
-    next = curr->next;   
-    curr->next = prev;   
-    prev = curr;         
-    curr = next; 
+    if(head == nullptr || head->next == nullptr)
+        return true;
+
+    // find last node
+    node* tail = head;
+    while(tail->next != nullptr)
+    {
+        tail = tail->next;
+    }
+
+    // two pointer check
+    node* left = head;
+    node* right = tail;
+
+    while(left != right && left->previous != right)
+    {
+        if(left->data != right->data)
+        {
+            return false; // mismatch
+        }
+
+        left = left->next;
+        right = right->previous;
+    }
+
+    return true; // all matched
 }
-head = prev; 
-return head;
+
+int main()
+{
+    // Example: R → A → D → A → R  (palindrome)
+    node* a = new node{'R', nullptr, nullptr};
+    node* b = new node{'A', nullptr, a};
+    node* c = new node{'D', nullptr, b};
+    node* d = new node{'A', nullptr, c};
+    node* e = new node{'R', nullptr, d};
+
+    a->next = b;
+    b->next = c;
+    c->next = d;
+    d->next = e;
+
+    if(isPalindrome(a))
+        cout << "Palindrome";
+    else
+        cout << "Not Palindrome";
+
+    return 0;
+}

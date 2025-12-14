@@ -1,58 +1,44 @@
 /*
-
-Write a program interleave the first half of the queue with second half.
-Sample I/P: 4 7 11      20 5 9 Sample O/P: 4 20 7 5 11 9
-
+3. Write a program to find size of
+i. Doubly Linked List.
+ii. Circular Linked List.
 */
-#include <iostream>
-#include<vector>
-#include<queue>
-using namespace std;
-void find(queue<int>A , queue<int>B)
+
+struct node {
+    int data;
+    node* next;
+    node* previous;   // used only for DLL
+};
+
+
+int sizeDLL(node* head)
 {
-    vector<int> answer ;
-    int n = max(A.size(),B.size()) ;
-    for(int i = 0 ; i < n; i++)
+    int count = 0;
+    node* temp = head;
+
+    while(temp != nullptr)
     {
-        if(!A.empty()&&!B.empty())
-        {
-            int j = A.front() ;
-            answer.push_back(j) ;
-            int p = B.front() ;
-            answer.push_back(p) ;
-            A.pop();
-            B.pop();
-        }
-        else if(A.empty()&&!B.empty())
-        {
-            int p = B.front() ;
-            answer.push_back(p) ;
-            B.pop();
-        }
-        else if(B.empty()&&!A.empty())
-        {
-            int p = A.front() ;
-            answer.push_back(p) ;
-            A.pop();
-        }
-        
+        count++;
+        temp = temp->next;
     }
-    for(int i = 0 ; i < answer.size();i++)
-    {
-        cout<< answer[i] << " " ;
-    }
+
+    return count;
 }
-int main()
+
+
+int sizeCLL(node* head)
 {
-    queue<int> A ;
-    A.push(4) ;
-    A.push(7) ; 
-    A.push(11) ;
-    queue<int> B ;
-    B.push(20) ;
-    B.push(5) ; 
-    B.push(9) ;
-    find(A , B) ;
-    
-return 0 ;
+    if(head == nullptr)
+        return 0;
+
+    int count = 1;
+    node* temp = head->next;
+
+    while(temp != head)
+    {
+        count++;
+        temp = temp->next;
+    }
+
+    return count;
 }

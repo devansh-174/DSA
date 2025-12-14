@@ -1,26 +1,65 @@
 /*
-Find the intersection node of two singly linked lists that merge into a Y-shaped structure.
-The lists may vary in length and have distinct nodes at the beginning, but from the point of
-intersection onward, they share the same sequence of nodes. The task is to identify the first
-common node where the two lists converge. If the two linked lists have no intersection at all,
-return null.
+Write a program to check if a linked list is Circular Linked List or not.
 */
-node* curr1;
-node* curr2 = head2 ;
-while(curr2!=nullptr)
+
+#include <iostream>
+using namespace std;
+
+struct node {
+    int data;
+    node* next;
+};
+
+bool isCircular(node* head)
 {
-    curr1 = head1 ;
-    while(curr1!=nullptr && curr1!=curr2)
+    if(head == nullptr)
+        return false;
+
+    node* temp = head->next;
+
+    while(temp != nullptr && temp != head)
     {
-        curr1 = curr1->next ;
-        
+        temp = temp->next;
     }
-    if(curr1==curr2)
-        {
-            return curr2;  
-        }
-    curr2 = curr2->next; 
-    
+
+    if(temp == head)
+        return true;
+    else
+        return false;
 }
-return nullptr;  // no intersection
-     
+
+int main()
+{
+    // Example 1: Circular Linked List
+    node* a = new node{10, nullptr};
+    node* b = new node{20, nullptr};
+    node* c = new node{30, nullptr};
+
+    a->next = b;
+    b->next = c;
+    c->next = a;   // circular
+
+    cout << "List 1: ";
+    if(isCircular(a))
+        cout << "Circular" << endl;
+    else
+        cout << "Not Circular" << endl;
+
+
+    // Example 2: Not Circular Linked List
+    node* x = new node{1, nullptr};
+    node* y = new node{2, nullptr};
+    node* z = new node{3, nullptr};
+
+    x->next = y;
+    y->next = z;
+    z->next = nullptr;  // not circular
+
+    cout << "List 2: ";
+    if(isCircular(x))
+        cout << "Circular" << endl;
+    else
+        cout << "Not Circular" << endl;
+
+    return 0;
+}

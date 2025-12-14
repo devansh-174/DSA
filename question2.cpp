@@ -1,142 +1,57 @@
 /*
-
-Develop a menu driven program demonstrating the following operations on Circular Queues:
-enqueue(), dequeue(), isEmpty(), isFull(), display(), and peek().
-
+Display all the node values in a circular linked list, repeating value of head node at the
+end too.
+Input: 20 → 100 → 40 → 80 → 60,
+Output: 20 100 40 80 60 20.
 */
-
 #include <iostream>
 using namespace std;
 
-#define SIZE 5   // maximum capacity of circular queue
-
-class CircularQueue {
-    int arr[SIZE];
-    int front, rear;
-
-public:
-    CircularQueue() {
-        front = -1;
-        rear = -1;
-    }
-
-    // Check if queue is empty
-    bool isEmpty() {
-        return (front == -1);
-    }
-
-    // Check if queue is full
-    bool isFull() {
-        return ((rear + 1) % SIZE == front);
-    }
-
-    // Insert element into circular queue
-    void enqueue(int value) {
-        if (isFull()) {
-            cout << "Queue is Full! Cannot enqueue.\n";
-            return;
-        }
-        if (isEmpty()) {
-            front = rear = 0;
-        } else {
-            rear = (rear + 1) % SIZE;
-        }
-        arr[rear] = value;
-        cout << value << " enqueued into circular queue.\n";
-    }
-
-    // Remove element from circular queue
-    void dequeue() {
-        if (isEmpty()) {
-            cout << "Queue is Empty! Cannot dequeue.\n";
-            return;
-        }
-        cout << arr[front] << " dequeued from circular queue.\n";
-        if (front == rear) {
-            // Only one element was present
-            front = rear = -1;
-        } else {
-            front = (front + 1) % SIZE;
-        }
-    }
-
-    // Peek front element
-    void peek() {
-        if (isEmpty()) {
-            cout << "Queue is Empty.\n";
-        } else {
-            cout << "Front element: " << arr[front] << endl;
-        }
-    }
-
-    // Display all elements in circular queue
-    void display() {
-        if (isEmpty()) {
-            cout << "Queue is Empty.\n";
-            return;
-        }
-        cout << "Circular Queue elements: ";
-        int i = front;
-        while (true) {
-            cout << arr[i] << " ";
-            if (i == rear)
-                break;
-            i = (i + 1) % SIZE;
-        }
-        cout << endl;
-    }
+struct node
+{
+    int data;
+    node* next;
 };
 
-int main() {
-    CircularQueue cq;
-    int choice, value;
+void display(node* head)
+{
+    if(head == nullptr)
+    {
+        return;
+    }
 
-    cout << "***** Circular Queue Operations Menu *****\n";
-    do {
-        cout << "\n1. Enqueue"
-             << "\n2. Dequeue"
-             << "\n3. Peek"
-             << "\n4. Display"
-             << "\n5. Check if Empty"
-             << "\n6. Check if Full"
-             << "\n7. Exit"
-             << "\nEnter your choice: ";
-        cin >> choice;
+    node* temp = head;
 
-        switch (choice) {
-            case 1:
-                cout << "Enter value to enqueue: ";
-                cin >> value;
-                cq.enqueue(value);
-                break;
-            case 2:
-                cq.dequeue();
-                break;
-            case 3:
-                cq.peek();
-                break;
-            case 4:
-                cq.display();
-                break;
-            case 5:
-                if (cq.isEmpty())
-                    cout << "Queue is Empty.\n";
-                else
-                    cout << "Queue is not Empty.\n";
-                break;
-            case 6:
-                if (cq.isFull())
-                    cout << "Queue is Full.\n";
-                else
-                    cout << "Queue is not Full.\n";
-                break;
-            case 7:
-                cout << "Exiting program.\n";
-                break;
-            default:
-                cout << "Invalid choice! Try again.\n";
-        }
-    } while (choice != 7);
+    // print until we reach the last node
+    while(temp->next != head)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+
+    // print last node
+    cout << temp->data << " ";
+
+    // print head again
+    cout << head->data;
+}
+
+int main()
+{
+    // Creating circular linked list manually: 20 → 100 → 40 → 80 → 60 → back to 20
+    node* head = new node{20, nullptr};
+    node* n2 = new node{100, nullptr};
+    node* n3 = new node{40, nullptr};
+    node* n4 = new node{80, nullptr};
+    node* n5 = new node{60, nullptr};
+
+    head->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+    n5->next = head; // circular
+
+    display(head);
 
     return 0;
 }

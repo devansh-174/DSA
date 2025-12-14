@@ -1,38 +1,105 @@
 /*
-Given a linked list, remove the loop if it exists.
+Given a Doubly linked list and Circular singly linked list containing N nodes, the task is
+to remove all the nodes from each list which contains elements whose parity is even.
 */
-node* slow = head ;
-node* fast = head ; 
-bool loopexist = false ;
-while( fast!=nullptr && fast->next!=nullptr)
-{
-    slow = slow->next;
-    fast = fast->next->next ;
-    if(slow == fast)
-    {
-        loopexist = true ;
-        break;
+#include<iostream>
+using namespace std ;
+
+int countOnes(int x) {
+    int c = 0;
+    while(x > 0) {
+        if(x & 1) c++;
+        x >>= 1;
     }
-}
-node* start ; // node at which loop starts 
-if(loopexist==true)
-{
-    slow = head;
-    while(slow!=fast)
-    {
-        slow = slow->next;
-        fast =fast->next ;
-    }
-    start = slow;
-    node* back ;
-    while(fast->next!= slow)
-    {
-        fast=fast->next ;
-    }
-    back = fast;
-    back->next = nullptr;  
+    return c;
 }
 
+node* removeEvenParityDLL(node* head)
+{
+    if(head == nullptr)
+        return nullptr;
+
+    node* temp = head;
+
+    // Fix head first if needed
+    while(temp != nullptr && countOnes(temp->data) % 2 == 0)
+    {
+        node* del = temp;
+        temp = temp->next;
+        if(temp != nullptr)
+            temp->previous = nullptr;
+        delete del;
+    }
+
+    head = temp;
+
+    // Normal deletion inside DLL
+    while(temp != nullptr)
+    {
+        if(countOnes(temp->data) % 2 == 0)  // even parity → remove
+        {
+            node* del = temp;
+
+            if(temp->previous)
+                temp->previous->next = temp->next;
+
+            if(temp->next)
+                temp->next->previous = temp->previous;
+
+            temp = temp->next;
+            delete del;
+        }
+        else
+        {
+            temp = temp->next;
+        }
+    }
+
+    return head;
+}
 
 
 
+node* removeEvenParityDLL(node* head)
+{
+    if(head == nullptr)
+        return nullptr;
+
+    node* temp = head;
+
+    // Fix head first if needed
+    while(temp != nullptr && countOnes(temp->data) % 2 == 0)
+    {
+        node* del = temp;
+        temp = temp->next;
+        if(temp != nullptr)
+            temp->previous = nullptr;
+        delete del;
+    }
+
+    head = temp;
+
+    // Normal deletion inside DLL
+    while(temp != nullptr)
+    {
+        if(countOnes(temp->data) % 2 == 0)  // even parity → remove
+        {
+            node* del = temp;
+
+            if(temp->previous)
+                temp->previous->next = temp->next;
+
+            if(temp->next)
+                temp->next->previous = temp->previous;
+
+            temp = temp->next;
+            delete del;
+        }
+        else
+        {
+            temp = temp->next;
+        }
+    }
+
+    return head;
+}

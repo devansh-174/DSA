@@ -1,53 +1,42 @@
 /*
-Given two polynomial numbers represented by two linked lists. The task is
-to add these lists (meaning the coefficients with the same variable powers will be
-added).
+Given a doubly linked list having exactly one of the node pointing to a random node in the
+list, the task is to correct this random pointer in the doubly linked list, such that it points to
+the expected node.
 */
-node* start1 = head1 ;
-node* start2 = head2 ;
-node* start3 = head3 ;
-while(start1!=nullptr && start2!=nullptr)
+/*
+Given a doubly linked list having exactly one of the node pointing to a random node 
+in the list, the task is to correct this random pointer in the doubly linked list, 
+such that it points to the expected node.
+*/
+struct node
 {
-    if(start1->second==start2->second)
+    int data ;
+    node* next ; 
+    node* previous ; 
+};
+node* correct(node* head){
+    node* temp = head ;
+    if(temp == nullptr || temp->next == nullptr)
     {
-        start3->first = start1->first+start2->first ;
-        start3->second = start1->second ;
-        start3 = start3->next ;
-        start2 = start2->next; 
-        start1 = start1->next;
+        return head ;
     }
-    else if(start1->second>start2->second)
+    
+    while(temp!=nullptr)
     {
-        start3->first=start1->first;
-        start3->second = start1->second ;
-        start3 = start3->next ;
-        start1 = start1->next;
+        node* nxt = temp;
+        if(temp->next==nullptr)
+        {
+            break ;
+        }
+        if(nxt->next->previous == nxt)
+        {
+            temp = temp->next;
+        }
+        else{
+            nxt->next->previous = nxt ;
+            break;
+        }
+
     }
-    else{
-        start3->first=start2->first;
-        start3->second = start2->second ;
-        start3 = start3->next ;
-        start2 = start2->next;   
-    }
+    return head ;
 }
-if(start1!=nullptr)
-{
-    while(start1!=nullptr)
-    {
-        start3->first=start1->first;
-        start3->second = start1->second ;
-        start3 = start3->next ;
-        start1 = start1->next;
-    }
-}
-else
-{
-    while(start2!=nullptr)
-    {
-        start3->first=start2->first;
-        start3->second = start2->second ;
-        start3 = start3->next ;
-        start2 = start2->next;
-    }
-}
-start3->next = nullptr ;
