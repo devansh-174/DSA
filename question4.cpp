@@ -1,63 +1,38 @@
 /*
-4. Write a program to check if a doubly linked list of characters is palindrome or not.
+Top K Frequent in Array
+Given a non-empty integer array arr[ ] of size n, find the top k elements which have the highest
+frequency in the array. Note: If two numbers have the same frequencies, then the larger
+number should be given more preference.
 */
 #include <iostream>
+#include <unordered_map>
+#include <queue>
 using namespace std;
-
-struct node {
-    char data;
-    node* next;
-    node* previous;
-};
-
-bool isPalindrome(node* head)
-{
-    if(head == nullptr || head->next == nullptr)
-        return true;
-
-    // find last node
-    node* tail = head;
-    while(tail->next != nullptr)
-    {
-        tail = tail->next;
-    }
-
-    // two pointer check
-    node* left = head;
-    node* right = tail;
-
-    while(left != right && left->previous != right)
-    {
-        if(left->data != right->data)
-        {
-            return false; // mismatch
-        }
-
-        left = left->next;
-        right = right->previous;
-    }
-
-    return true; // all matched
-}
 
 int main()
 {
-    // Example: R → A → D → A → R  (palindrome)
-    node* a = new node{'R', nullptr, nullptr};
-    node* b = new node{'A', nullptr, a};
-    node* c = new node{'D', nullptr, b};
-    node* d = new node{'A', nullptr, c};
-    node* e = new node{'R', nullptr, d};
+    int arr[] = {1, 1, 1, 2, 2, 3, 3, 3};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int k = 2;
 
-    a->next = b;
-    b->next = c;
-    c->next = d;
-    d->next = e;
+    unordered_map<int, int> freq;
+    for (int i = 0; i < n; i++)
+    {
+        freq[arr[i]]++;
+    }
+    priority_queue<pair<int, int>> pq;
 
-    if(isPalindrome(a))
-        cout << "Palindrome";
-    else
-        cout << "Not Palindrome";
+    for (auto it : freq)
+    {
+        pq.push({it.second, it.first});
+    }
+
+    cout << "Top " << k << " frequent elements: ";
+    for (int i = 0; i < k; i++)
+    {
+        cout << pq.top().second << " ";
+        pq.pop();
+    }
 
     return 0;
 }

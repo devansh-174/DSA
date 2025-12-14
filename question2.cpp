@@ -1,57 +1,39 @@
 /*
-Display all the node values in a circular linked list, repeating value of head node at the
-end too.
-Input: 20 → 100 → 40 → 80 → 60,
-Output: 20 100 40 80 60 20.
+A slightly improved selection sort – We know that selection sort algorithm takes the minimum on
+every pass on the array, and place it at its correct position. The idea is to take also the maximum on
+every pass and place it at its correct position. So in every pass, we keep track of both maximum and
+minimum and array becomes sorted from both ends. Implement this logic.
 */
 #include <iostream>
 using namespace std;
 
-struct node
+void improvedSelectionSort(int arr[], int n)
 {
-    int data;
-    node* next;
-};
+    int left = 0;          
+    int right = n - 1;     
 
-void display(node* head)
-{
-    if(head == nullptr)
+    while (left < right)
     {
-        return;
+        int minIndex = left;
+        int maxIndex = left;
+
+        for (int i = left; i <= right; i++)
+        {
+            if (arr[i] < arr[minIndex])
+                minIndex = i;
+
+            if (arr[i] > arr[maxIndex])
+                maxIndex = i;
+        }
+
+        swap(arr[left], arr[minIndex]);
+
+        if (maxIndex == left)
+            maxIndex = minIndex;
+
+        swap(arr[right], arr[maxIndex]);
+
+        left++;
+        right--;
     }
-
-    node* temp = head;
-
-    // print until we reach the last node
-    while(temp->next != head)
-    {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-
-    // print last node
-    cout << temp->data << " ";
-
-    // print head again
-    cout << head->data;
-}
-
-int main()
-{
-    // Creating circular linked list manually: 20 → 100 → 40 → 80 → 60 → back to 20
-    node* head = new node{20, nullptr};
-    node* n2 = new node{100, nullptr};
-    node* n3 = new node{40, nullptr};
-    node* n4 = new node{80, nullptr};
-    node* n5 = new node{60, nullptr};
-
-    head->next = n2;
-    n2->next = n3;
-    n3->next = n4;
-    n4->next = n5;
-    n5->next = head; // circular
-
-    display(head);
-
-    return 0;
 }

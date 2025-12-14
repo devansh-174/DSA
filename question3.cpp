@@ -1,44 +1,27 @@
 /*
-3. Write a program to find size of
-i. Doubly Linked List.
-ii. Circular Linked List.
+Given an array nums of size n, return the majority element. The majority element is the element that
+appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
 */
+#include <iostream>
+using namespace std;
 
-struct node {
-    int data;
-    node* next;
-    node* previous;   // used only for DLL
-};
-
-
-int sizeDLL(node* head)
+int majorityElement(int nums[], int n)
 {
-    int count = 0;
-    node* temp = head;
-
-    while(temp != nullptr)
-    {
-        count++;
-        temp = temp->next;
-    }
-
-    return count;
-}
-
-
-int sizeCLL(node* head)
-{
-    if(head == nullptr)
-        return 0;
-
+    int candidate = nums[0];
     int count = 1;
-    node* temp = head->next;
 
-    while(temp != head)
+    for (int i = 1; i < n; i++)
     {
-        count++;
-        temp = temp->next;
+        if (nums[i] == candidate)
+            count++;
+        else
+            count--;
+        if (count == 0)
+        {
+            candidate = nums[i];
+            count = 1;
+        }
     }
-
-    return count;
+    return candidate;
 }
+

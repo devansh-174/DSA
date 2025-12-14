@@ -1,65 +1,36 @@
 /*
-Write a program to check if a linked list is Circular Linked List or not.
+Maximum Sum Combination
+You are given two integer arrays a[ ] and b[ ] of equal size. A sum combination is formed by adding
+one element from a[ ] and one from b[ ], using each index pair (i, j) at most once. Return the
+top k maximum sum combinations, sorted in non-increasing order.
 */
-
 #include <iostream>
+#include <queue>
 using namespace std;
-
-struct node {
-    int data;
-    node* next;
-};
-
-bool isCircular(node* head)
-{
-    if(head == nullptr)
-        return false;
-
-    node* temp = head->next;
-
-    while(temp != nullptr && temp != head)
-    {
-        temp = temp->next;
-    }
-
-    if(temp == head)
-        return true;
-    else
-        return false;
-}
 
 int main()
 {
-    // Example 1: Circular Linked List
-    node* a = new node{10, nullptr};
-    node* b = new node{20, nullptr};
-    node* c = new node{30, nullptr};
+    int a[] = {4, 2, 5, 1};
+    int b[] = {8, 0, 3, 5};
+    int n = 4;
+    int k = 3;
 
-    a->next = b;
-    b->next = c;
-    c->next = a;   // circular
+    priority_queue<int> pq;
 
-    cout << "List 1: ";
-    if(isCircular(a))
-        cout << "Circular" << endl;
-    else
-        cout << "Not Circular" << endl;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            pq.push(a[i] + b[j]);
+        }
+    }
 
-
-    // Example 2: Not Circular Linked List
-    node* x = new node{1, nullptr};
-    node* y = new node{2, nullptr};
-    node* z = new node{3, nullptr};
-
-    x->next = y;
-    y->next = z;
-    z->next = nullptr;  // not circular
-
-    cout << "List 2: ";
-    if(isCircular(x))
-        cout << "Circular" << endl;
-    else
-        cout << "Not Circular" << endl;
+    cout << "Top " << k << " sums: ";
+    for (int i = 0; i < k; i++)
+    {
+        cout << pq.top() << " ";
+        pq.pop();
+    }
 
     return 0;
 }
